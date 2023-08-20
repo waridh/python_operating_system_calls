@@ -31,12 +31,14 @@ class ThreadedServer(object):
 
   def close_server(self):
     # For closing the server
+    self.sock.shutdown(socket.SHUT_RDWR)
     self.sock.close()
 
   def client_disconnected( self, clntsock, address ):
     # When a client disconnect, we run this function to notify and close
     # connection
     self.safe_print("The client: %s has disconnected.\n\tClosing socket now" %(str(address)))
+    clntsock.shutdown(socket.SHUT_RDWR)
     clntsock.close()
 
   def receive_command( self, clntsock, address ):

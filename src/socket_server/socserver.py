@@ -34,6 +34,7 @@ class ThreadedServer(object):
     self.sock.shutdown(socket.SHUT_RDWR)
     self.sock.close()
 
+
   def client_disconnected( self, clntsock, address ):
     # When a client disconnect, we run this function to notify and close
     # connection

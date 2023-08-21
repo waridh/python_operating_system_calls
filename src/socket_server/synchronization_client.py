@@ -3,6 +3,8 @@
 import socclient as socclnt
 import packet_types as pac_t
 import threading
+import select
+import sys
 
 class SyncClient(socclnt.SocketClient):
   def __init__(self, address, port, frame_size):
@@ -27,6 +29,31 @@ class SyncClient(socclnt.SocketClient):
       return
     else:
       raise ValueError("Incorrect response", command.cmd)
+
+  def client_loop(self):
+    """
+    [client_loop] is the method that contains the main loop that controls
+    flow
+    """
+    io_list = [self.sock.fileno(), sys.stdin.fileno()]
+    while True:
+      # Using select to multiplex between socket and stdin
+      try:
+        ready_to_read, ready_to_write, _ = \
+            select.select(io_list, [self.sock.fileno()], [], 1)
+      except Exception as e:
+        print("caught exception\n\tMessage: %s" % (str(e)))
+      for x in ready_to_read:
+        if (x == self.sock.fileno()):
+          # server sent something
+          pass
+        elif (x == sys.stdin.fileno()):
+          # User typed something in
+          pass
+      for x in ready_to_write:
+        if (x == self.sock.fileno()):
+          # the server wants to client to send something
+          pass
 
   def run_syncclient(self): 
     # Running the client-server synchronization routine

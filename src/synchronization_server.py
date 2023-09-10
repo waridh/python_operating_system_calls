@@ -6,6 +6,15 @@ import select
 import sys 
 
 class SyncServer(socserv.ThreadedServer):
+  """
+  SyncServer
+
+  Features
+
+  TODO
+    - Time tracking feature
+    - User initate synchronized packet
+  """
   def __init__(self, host, port, frame_size):
     # Need to initialize an
     super().__init__(host, port, frame_size)

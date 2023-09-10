@@ -4,7 +4,9 @@ Quick python multithreaded socket server implementation to demonstrate my unders
 
 ## Usage
 
-Run the main
+To run the synchronization socket server, follow these steps.
+
+1. Run the following command: `python3 socket_server_main.py`
 
 ## TODO
 

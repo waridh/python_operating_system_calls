@@ -218,5 +218,5 @@ class SyncServer(socserv.ThreadedServer):
 
 if __name__ == "__main__":
   # testing purposes
-  sync_server = SyncServer('', 4343, 4096)
+  sync_server = SyncServer('0.0.0.0', 4343, 4096)
   sync_server.run_syncserver(2)

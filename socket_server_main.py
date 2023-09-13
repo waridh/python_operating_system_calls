@@ -86,6 +86,10 @@ def get_arguments(args, flag_name, idx):
     return args[idx+1]
 
 exists = lambda value, dictionary : True if value in dictionary else False
+"""
+[exists(value, dictionary)] just does checking if the value exists in a
+dictionary.
+"""
 
 #==============================================================================
 # Not Runnable cases
@@ -95,10 +99,18 @@ def error_case_checks(flag_dict):
   """
   [error_case_checks] is the controller program for user input.
   """
-
   if (not exists('-s', flag_dict)) and (not exists('-c', flag_dict)):
     # Program don't know client or server.
     raise ValueError("The user did not specify the mode of operation")
+
+def client_check(flag_dict):
+  """
+  [client_check(flag_dict)] is a function that checks the [flag_dict] to see if
+  the dictionary has all the flags and details that are needed to run the
+  client program.
+  """
+  if ( not exists('-c', flag_dict) or (not( exists()))):
+    raise ValueError("The user did not specify enough fields");
   
 
 #==============================================================================

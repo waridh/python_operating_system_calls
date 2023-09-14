@@ -102,6 +102,11 @@ def error_case_checks(flag_dict):
   if (not exists('-s', flag_dict)) and (not exists('-c', flag_dict)):
     # Program don't know client or server.
     raise ValueError("The user did not specify the mode of operation")
+  elif (exists('-s', flag_dict) and exists('-c', flag_dict)):
+    # Should not be both at the same time.
+    raise ValueError("The user is using the program incorrectly.")
+  else:
+    return True
 
 def client_check(flag_dict):
   """
@@ -109,9 +114,47 @@ def client_check(flag_dict):
   the dictionary has all the flags and details that are needed to run the
   client program.
   """
-  if ( not exists('-c', flag_dict) or (not( exists()))):
-    raise ValueError("The user did not specify enough fields");
+  if ( (not(exists('-p', flag_dict))) or (not( exists('-a', flag_dict)))):
+    return False
+  else:
+    return True
+
+def server_check(flag_dict):
+  """
+  [client_check(flag_dict)] is a function that checks the [flag_dict] to see if
+  the dictionary has all the flags and details that are needed to run the
+  client program.
+  """
+  if ( (not(exists('-p', flag_dict))) ):
+    return False
+  else:
+    return True
+
+#==============================================================================
+#
+# Flow control
+#
+#==============================================================================
   
+is_client = lambda flag_dict : (True) if (
+    exists('-c', flag_dict) and client_check(flag_dict)
+    ) else False
+
+is_server = lambda flag_dict : (True) if (
+    exists('-s', flag_dict) and server_check(flag_dict)
+    ) else False
+
+def run_program(flag_dict):
+  """
+  This function will lauch either the client or the server program based on
+  the user input.
+  """
+  if is_server(flag_dict):
+    # This is the server branch
+    pass
+  elif is_client(flag_dict):
+    # This is the client branch
+    pass
 
 #==============================================================================
 #
@@ -125,6 +168,7 @@ def main():
   program.
   """
   flag_dict = flag_dict_cons(sys.argv)
+  error_case_checks(flag_dict)  # Incorrect use handling.
   
 
 

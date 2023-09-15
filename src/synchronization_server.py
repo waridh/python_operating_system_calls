@@ -15,8 +15,10 @@ class SyncServer(socserv.ThreadedServer):
     - Time tracking feature
     - User initate synchronized packet
   """
-  def __init__(self, host, port, frame_size):
+  def __init__(self, port):
     # Need to initialize an
+    host = '0.0.0.0'
+    frame_size = 4096
     super().__init__(host, port, frame_size)
     self.num_clients = 0
     self.rdy_clients = 0
@@ -227,5 +229,5 @@ class SyncServer(socserv.ThreadedServer):
 
 if __name__ == "__main__":
   # testing purposes
-  sync_server = SyncServer('0.0.0.0', 4343, 4096)
+  sync_server = SyncServer( 4343)
   sync_server.run_syncserver(2)

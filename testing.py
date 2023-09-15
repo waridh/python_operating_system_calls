@@ -26,6 +26,11 @@ class TestFlags(unittest.TestCase):
     with self.assertRaises(ValueError):
       ssm.get_arguments(list1, "-c", 3)
 
+  def test_get_arg(self):
+    args = ["-c", "-p", "43434", "-a", "localhost"]
+    flag_dict = ssm.flag_dict_cons(args)
+    self.assertEqual("43434", ssm.get_arg(args, flag_dict, "-p"))
+
   def test_error_case_checks(self):
     # Testing to see if the program will catch when the user specified the
     # mode incorrectly.

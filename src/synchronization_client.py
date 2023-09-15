@@ -7,7 +7,8 @@ import select
 import sys
 
 class SyncClient(socclnt.SocketClient):
-  def __init__(self, address, port, frame_size):
+  def __init__(self, address, port):
+    frame_size = 4096 # Temp hard code in this location. TODO: Move this.
     super().__init__(address, port, frame_size)
 
   def ready_for_sync(self):
@@ -68,5 +69,5 @@ class SyncClient(socclnt.SocketClient):
 
 if __name__ == "__main__":
   # Testing
-  sync_client = SyncClient('localhost', 4343, 4096)
+  sync_client = SyncClient( 'localhost', 4343 )
   sync_client.run_syncclient()

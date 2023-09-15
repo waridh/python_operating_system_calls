@@ -17,8 +17,8 @@ get_import_path = list(map(make_path, import_list))
 list(map(append_path, get_import_path))
 
 # Importing the socket classes
-import synchronization_client
-import synchronization_server
+import synchronization_client as sc
+import synchronization_server as ss
 
 #==============================================================================
 #
@@ -85,6 +85,9 @@ def get_arguments(args, flag_name, idx):
   else:
     return args[idx+1]
 
+get_arg = lambda args, flag_dict, flag_name : get_arguments(
+        args, flag_name, flag_dict[flag_name])
+
 exists = lambda value, dictionary : True if value in dictionary else False
 """
 [exists(value, dictionary)] just does checking if the value exists in a
@@ -144,17 +147,28 @@ is_server = lambda flag_dict : (True) if (
     exists('-s', flag_dict) and server_check(flag_dict)
     ) else False
 
-def run_program(flag_dict):
+def run_program(flag_dict, args):
   """
   This function will lauch either the client or the server program based on
   the user input.
   """
   if is_server(flag_dict):
     # This is the server branch
-    pass
+    selected_port = int(get_arg(args, flag_dict, '-p'))
+    print(
+            "***\tStarting server program with the port of %d\t***"
+            % (selected_port)
+        )
+    sync_server = ss.SyncServer(int(get_arg(args, flag_dict, '-p')))
+    sync_server.run_syncserver(4)
   elif is_client(flag_dict):
     # This is the client branch
-    pass
+    print("*\tStarting client program")
+    sync_client = sc.SyncClient(
+            get_arg(
+                args, flag_dict, '-a'
+                ), int( get_arg(args, flag_dict, '-p')))
+    sync_client.run_syncclient()
 
 #==============================================================================
 #
@@ -169,8 +183,7 @@ def main():
   """
   flag_dict = flag_dict_cons(sys.argv)
   error_case_checks(flag_dict)  # Incorrect use handling.
-  
-
+  run_program(flag_dict, sys.argv)
 
 if __name__ == "__main__":
   main()

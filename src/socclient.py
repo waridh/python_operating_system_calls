@@ -4,7 +4,7 @@ import packet_types
 
 class SocketClient(object):
   def __init__(self, address, port, frame_size):
-    self.server_address = address
+    self.server_address = socket.gethostbyname(address)
     self.port = port
     self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     self.frame_size = frame_size
